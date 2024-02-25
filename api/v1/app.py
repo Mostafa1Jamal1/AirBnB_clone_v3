@@ -9,6 +9,11 @@ from api.v1.views import app_views  # noqa: E402
 app.register_blueprint(app_views)
 
 
+@app.errorhandler(404)
+def not_found(error):
+    """ 404 error handler """
+    return {"error": "Not found"}, 404
+
 @app.teardown_appcontext
 def teardown_appcontext(response_or_exc):
     """ close the session """

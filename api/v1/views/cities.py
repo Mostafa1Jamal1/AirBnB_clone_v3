@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" cities module """
+""" cities API """
 
 from api.v1.views import app_views
 from flask import jsonify, abort, request
@@ -33,7 +33,7 @@ def cities(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
 def city_with_id(city_id):
-    """ Retrieves a City object """
+    """ Retrieves a City object by id"""
     city = storage.get('City', city_id)
     if city is None:
         abort(404)
@@ -50,8 +50,8 @@ def city_with_id(city_id):
         data = request.get_json()
         if data is None:
             abort(400, 'Not a JSON')
-        for key, value in data.items():
-            if key not in ['id', 'state_id', 'created_at', 'updated_at']:
-                setattr(city, key, value)
+        for k, v in data.items():
+            if k not in ['id', 'state_id', 'created_at', 'updated_at']:
+                setattr(city, k, v)
         city.save()
         return jsonify(city.to_dict()), 200

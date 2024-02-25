@@ -32,15 +32,15 @@ def state_with_id(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    
+
     if request.method == 'GET':
         return jsonify(state.to_dict())
-    
+
     if request.method == 'DELETE':
         storage.delete(state)
         storage.save()
         return jsonify({}), 200
-    
+
     if request.method == 'PUT':
         data = request.get_json()
         if data is None:

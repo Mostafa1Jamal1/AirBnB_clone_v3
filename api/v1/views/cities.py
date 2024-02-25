@@ -29,7 +29,7 @@ def cities(state_id):
         new_city = City(**data)
         new_city.save()
         return jsonify(new_city.to_dict()), 201
-    
+
 
 @app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
 def city_with_id(city_id):

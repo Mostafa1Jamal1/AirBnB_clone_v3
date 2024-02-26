@@ -21,6 +21,7 @@ def not_found(error):
     """ 404 error handler """
     return jsonify({"error": "Not found"}), 404
 
+
 @app.teardown_appcontext
 def teardown_appcontext(response_or_exc):
     """ close the session """

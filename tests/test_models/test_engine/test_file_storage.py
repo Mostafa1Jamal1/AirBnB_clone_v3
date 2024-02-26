@@ -125,9 +125,10 @@ class TestFileStorage(unittest.TestCase):
         save = FileStorage._FileStorage__objects
         FileStorage._FileStorage__objects = {}
         for key, value in classes.items():
-            instance = value()
-            storage.new(instance)
-            self.assertEqual(instance, storage.get(value, instance.id))
+            with self.subTest(key=key, value=value):
+                instance = value()
+                storage.new(instance)
+                self.assertEqual(instance, storage.get(value, instance.id))
         FileStorage._FileStorage__objects = save
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
@@ -137,11 +138,12 @@ class TestFileStorage(unittest.TestCase):
         save = FileStorage._FileStorage__objects
         FileStorage._FileStorage__objects = {}
         count = 0
-        for key, value in classes.items():
+        for value in classes.values():
             instance = value()
             storage.new(instance)
             count += 1
-        for key, value in classes.items():
-            self.assertEqual(1, storage.count(value))
+            n = storage.count(value)
+            with self.subTest(n=n):
+                self.assertEqual(1, n)
         self.assertEqual(count, storage.count())
         FileStorage._FileStorage__objects = save

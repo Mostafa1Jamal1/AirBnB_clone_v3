@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """ API module """
 
-from api.v1.views import app_views  # noqa: E402
-from flask import Flask
+from api.v1.views import app_views
+from flask import Flask, jsonify
 from models import storage
 from os import getenv
 
@@ -19,7 +19,7 @@ app.register_blueprint(app_views)
 @app.errorhandler(404)
 def not_found(error):
     """ 404 error handler """
-    return {"error": "Not found"}, 404
+    return jsonify({"error": "Not found"}), 404
 
 @app.teardown_appcontext
 def teardown_appcontext(response_or_exc):
